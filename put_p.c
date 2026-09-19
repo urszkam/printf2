@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   put_p.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: urkamins <urkamins@student.42warsaw.fr>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/10 23:02:40 by urkamins          #+#    #+#             */
+/*   Updated: 2026/08/10 23:02:40 by urkamins         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static int	put_hex_rec(uintptr_t n, char *base, int len)
@@ -24,5 +36,7 @@ int	put_p(void *ptr, int flags)
 		else
 			counter += put_c(' ');
 	}
-	return (counter + put_s("0x") + put_hex_rec(p, "0123456789abcdef", 0));
+	counter += put_s("0x");
+	counter += put_hex_rec(p, "0123456789abcdef", 0);
+	return (counter);
 }

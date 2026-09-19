@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: urkamins <urkamins@student.42warsaw.fr>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/10 23:02:40 by urkamins          #+#    #+#             */
+/*   Updated: 2026/08/10 23:02:40 by urkamins         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static t_bool	has_flags_and_specifiers(const char **format)
@@ -9,19 +21,21 @@ static t_bool	has_flags_and_specifiers(const char **format)
 		(*format)++;
 	while (*specifier && *specifier != **format)
 		specifier++;
-	return (*specifier == **format);
+	return (*specifier && *specifier == **format);
 }
 
-static t_bool	validate_format(const char *format)
+static t_bool	validate_format(const char *format, const char **format_end)
 {
 	while (*format)
 	{
+		*format_end = format;
 		if (*format == '%')
 			if (!*(++format)
 				|| !has_flags_and_specifiers(&format))
 				return (false);
 		format++;
 	}
+	*format_end = format;
 	return (true);
 }
 
@@ -63,15 +77,16 @@ static int	convert(const char specifier, int flags, va_list *args)
 
 int	ft_printf(const char *format, ...)
 {
-	va_list	args;
-	int		counter;
-	int		flags;
+	va_list		args;
+	int			counter;
+	int			flags;
+	t_bool		format_valid;
+	const char	*format_end;
 
-	if (!validate_format(format))
-		return (-1);
+	format_valid = validate_format(format, &format_end);
 	va_start(args, format);
 	counter = 0;
-	while (*format)
+	while (format != format_end)
 	{
 		if (*format == '%')
 		{
@@ -83,6 +98,7 @@ int	ft_printf(const char *format, ...)
 			counter += put_c(*format);
 		format++;
 	}
-	va_end(args);
-	return (counter);
+	if (!format_valid)
+		counter = -1;
+	return (va_end(args), counter);
 }

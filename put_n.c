@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   put_n.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: urkamins <urkamins@student.42warsaw.fr>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/10 23:02:40 by urkamins          #+#    #+#             */
+/*   Updated: 2026/08/10 23:02:40 by urkamins         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static int	put_nbr_rec(long nb, int len)
@@ -15,11 +27,16 @@ static int	put_nbr_rec(long nb, int len)
 
 int	put_n(long nb, int flags, char c)
 {
+	int	counter;
+
+	counter = 0;
 	if (c != 'u' && nb >= 0 && ((flags & 1) || (flags >> 1 & 1)))
 	{
 		if (flags >> 1 & 1)
-			return (put_c('+') + put_nbr_rec(nb, 0));
-		return (put_c(' ') + put_nbr_rec(nb, 0));
+			counter += put_c('+');
+		else
+			counter += put_c(' ');
 	}
-	return (put_nbr_rec(nb, 0));
+	counter += put_nbr_rec(nb, 0);
+	return (counter);
 }
