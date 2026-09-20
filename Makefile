@@ -14,17 +14,19 @@ bonus: ${NAME}
 ${NAME}: ${OBJS}
 	@ar rcs ${NAME} $^
 
-${OBJS}: ${HEADER_DIR}ft_printf.h
+%.o: %.c 
+	@${CC} ${CFLAGS} ${CPPFLAGS} -c $^ -o $@
 
 clean:
 	@${RM} ${OBJS}
 fclean: clean
 	@${RM} ${NAME}
-re: fclean
-	@${MAKE} all
+re: fclean all
 
 tests: ${NAME}
-	@cc ${CFLAGS} -o ft_printf main.c -L. -lftprintf -I./
-# 	valgrind --leak-check=full --show-leak-kinds=all ./tests.out
+	@${MAKE} -C tests tests
 
-.PHONY: all bonus clean fclean re tests
+bonus-tests: bonus
+	@${MAKE} -C tests bonus-tests
+
+.PHONY: all bonus clean fclean re tests bonus-tests
