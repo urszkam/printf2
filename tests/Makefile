@@ -5,7 +5,7 @@ LIBS = -L.. ../libftprintf.a -lgtest -lgtest_main -pthread
 tests:
 	@g++ $(FLAGS) $(INCLUDES) -o specifiers test_specifiers.cpp $(LIBS)
 	@./specifiers
-	@rm -f speciiers
+	@rm -f specifiers
 
 bonus-tests:
 	@g++ $(FLAGS) $(INCLUDES) -o flags test_flags.cpp $(LIBS)
