@@ -26,8 +26,8 @@ int	put_s(char *s);
 
 typedef enum e_bool
 {
-	false,
-	true
+	FALSE,
+	TRUE
 }	t_bool;
 
 #endif

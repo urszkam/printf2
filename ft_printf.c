@@ -32,11 +32,11 @@ static t_bool	validate_format(const char *format, const char **format_end)
 		if (*format == '%')
 			if (!*(++format)
 				|| !has_flags_and_specifiers(&format))
-				return (false);
+				return (FALSE);
 		format++;
 	}
 	*format_end = format;
-	return (true);
+	return (TRUE);
 }
 
 static int	extract_flags(const char **format)
@@ -98,7 +98,7 @@ int	ft_printf(const char *format, ...)
 			counter += put_c(*format);
 		format++;
 	}
-	if (!format_valid)
+	if (!format_valid || counter < 0)
 		counter = -1;
 	return (va_end(args), counter);
 }
